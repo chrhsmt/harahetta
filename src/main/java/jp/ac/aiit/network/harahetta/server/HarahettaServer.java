@@ -12,7 +12,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status.Family;
 import javax.ws.rs.core.UriBuilder;
 
-import jp.ac.aiit.network.harahetta.entity.Entity;
+import jp.ac.aiit.network.harahetta.entity.recruit.Entity;
+import jp.ac.aiit.network.harahetta.entity.recruit.Result;
+import jp.ac.aiit.network.harahetta.entity.recruit.SmallArea;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -61,8 +63,12 @@ public class HarahettaServer {
         
         if (response.getStatusInfo().getFamily() == Family.SUCCESSFUL) {
             Entity entity = response.getEntity(Entity.class);
-            logger.info(String.valueOf(entity.getResults().getApiVersion()));
-            logger.info(String.valueOf(entity.getResults().getSmallArea().size()));
+            Result result = entity.getResults();
+            logger.info(String.format("api version : %s", result.getApiVersion()));
+            logger.info(String.format("result count : %d", result.getResultsReturned()));
+            for (SmallArea area : result.getSmallArea()) {
+                logger.info(String.format("[%s] : %s", area.getCode(), area.getName()));
+            }
         } else {
             logger.info(response.getStatusInfo().toString());
         }

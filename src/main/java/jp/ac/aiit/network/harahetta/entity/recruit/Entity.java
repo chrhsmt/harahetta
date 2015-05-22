@@ -1,7 +1,7 @@
 /**
  * 
  */
-package jp.ac.aiit.network.harahetta.entity;
+package jp.ac.aiit.network.harahetta.entity.recruit;
 
 import java.io.Serializable;
 
