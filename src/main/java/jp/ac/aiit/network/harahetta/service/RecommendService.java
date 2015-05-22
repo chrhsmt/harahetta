@@ -88,7 +88,8 @@ public class RecommendService {
             logger.info(String.format("api version : %s", result.getApiVersion()));
             logger.info(String.format("result count : %d", result.getResultsReturned()));
             for (Shop shop: result.getShops()) {
-                logger.info(String.format("[%s] : %s @ %s", shop.getId(), shop.getName(), shop.getAddress()));
+                logger.info(String.format("[%s] : %s[%s] @ %s",
+                        shop.getId(), shop.getName(), shop.getFood().getName(), shop.getAddress()));
             }
             return result.getShops();
         } else {

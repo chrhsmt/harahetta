@@ -12,23 +12,23 @@ import javax.xml.bind.annotation.XmlElement;
  * @author hashimoto
  *
  */
-public class SmallArea extends ServiceArea implements Serializable {
+public class SmallArea extends Item implements Serializable {
 
     /** シリアルバージョン.  */
     private static final long serialVersionUID = -5589374304453406535L;
 
-    private ServiceArea middleArea;
+    private Item middleArea;
 
-    private ServiceArea largeArea;
+    private Item largeArea;
 
-    private ServiceArea serviceArea;
+    private Item serviceArea;
 
-    private ServiceArea largeServiceArea;
+    private Item largeServiceArea;
 
     /**
      * @return the middleArea
      */
-    public ServiceArea getMiddleArea() {
+    public Item getMiddleArea() {
         return middleArea;
     }
 
@@ -36,14 +36,14 @@ public class SmallArea extends ServiceArea implements Serializable {
      * @param middleArea the middleArea to set
      */
     @XmlElement(name="middle_area")
-    public void setMiddleArea(ServiceArea middleArea) {
+    public void setMiddleArea(Item middleArea) {
         this.middleArea = middleArea;
     }
 
     /**
      * @return the largeArea
      */
-    public ServiceArea getLargeArea() {
+    public Item getLargeArea() {
         return largeArea;
     }
 
@@ -51,14 +51,14 @@ public class SmallArea extends ServiceArea implements Serializable {
      * @param largeArea the largeArea to set
      */
     @XmlElement(name="large_area")
-    public void setLargeArea(ServiceArea largeArea) {
+    public void setLargeArea(Item largeArea) {
         this.largeArea = largeArea;
     }
 
     /**
      * @return the serviceArea
      */
-    public ServiceArea getServiceArea() {
+    public Item getServiceArea() {
         return serviceArea;
     }
 
@@ -66,14 +66,14 @@ public class SmallArea extends ServiceArea implements Serializable {
      * @param serviceArea the serviceArea to set
      */
     @XmlElement(name="service_area")
-    public void setServiceArea(ServiceArea serviceArea) {
+    public void setServiceArea(Item serviceArea) {
         this.serviceArea = serviceArea;
     }
 
     /**
      * @return the largeServiceArea
      */
-    public ServiceArea getLargeServiceArea() {
+    public Item getLargeServiceArea() {
         return largeServiceArea;
     }
 
@@ -81,7 +81,7 @@ public class SmallArea extends ServiceArea implements Serializable {
      * @param largeServiceArea the largeServiceArea to set
      */
     @XmlElement(name="large_service_area")
-    public void setLargeServiceArea(ServiceArea largeServiceArea) {
+    public void setLargeServiceArea(Item largeServiceArea) {
         this.largeServiceArea = largeServiceArea;
     }
 

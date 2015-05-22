@@ -20,6 +20,8 @@ public class Shop implements Serializable {
     
     private String address;
 
+    private Item food;
+
     /**
      * @return the id
      */
@@ -61,5 +63,19 @@ public class Shop implements Serializable {
     public void setAddress(String address) {
         this.address = address;
     }
-    
+
+    /**
+     * @return the food
+     */
+    public Item getFood() {
+        return food;
+    }
+
+    /**
+     * @param food the food to set
+     */
+    public void setFood(Item food) {
+        this.food = food;
+    }
+
 }

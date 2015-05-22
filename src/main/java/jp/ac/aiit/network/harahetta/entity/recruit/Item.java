@@ -6,11 +6,11 @@ package jp.ac.aiit.network.harahetta.entity.recruit;
 import java.io.Serializable;
 
 /**
- * サービスエリア.
+ * アイテム.
  * @author hashimoto
  *
  */
-public class ServiceArea implements Serializable {
+public class Item implements Serializable {
 
     /** シリアルバージョン.  */
     private static final long serialVersionUID = -3537438421017095297L;
