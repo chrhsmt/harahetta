@@ -19,19 +19,19 @@ public class Entity implements Serializable {
     /** シリアルバージョン.  */
     private static final long serialVersionUID = -9098711549018573017L;
 
-    private Result results;
+    private ShopResult results;
 
     /**
      * @return the results
      */
-    public Result getResults() {
+    public ShopResult getResults() {
         return results;
     }
 
     /**
      * @param results the results to set
      */
-    public void setResults(Result results) {
+    public void setResults(ShopResult results) {
         this.results = results;
     }
 }

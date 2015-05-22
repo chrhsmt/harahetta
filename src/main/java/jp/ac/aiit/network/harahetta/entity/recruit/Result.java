@@ -4,7 +4,6 @@
 package jp.ac.aiit.network.harahetta.entity.recruit;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -26,8 +25,6 @@ public class Result implements Serializable {
     private int resultsReturned;
 
     private int resultsStart;
-
-    private List<SmallArea> smallArea;
 
     /**
      * @return the apiVersion
@@ -87,21 +84,6 @@ public class Result implements Serializable {
     @XmlElement(name="results_start")
     public void setResultsStart(int resultsStart) {
         this.resultsStart = resultsStart;
-    }
-
-    /**
-     * @return the smallArea
-     */
-    public List<SmallArea> getSmallArea() {
-        return smallArea;
-    }
-
-    /**
-     * @param smallArea the smallArea to set
-     */
-    @XmlElement(name="small_area")
-    public void setSmallArea(List<SmallArea> smallArea) {
-        this.smallArea = smallArea;
     }
 
 }
