@@ -3,26 +3,18 @@
  */
 package jp.ac.aiit.network.harahetta.server;
 
-import java.net.URI;
-import java.util.ResourceBundle;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response.Status.Family;
-import javax.ws.rs.core.UriBuilder;
-
-import jp.ac.aiit.network.harahetta.entity.recruit.Entity;
-import jp.ac.aiit.network.harahetta.entity.recruit.Result;
-import jp.ac.aiit.network.harahetta.entity.recruit.SmallArea;
+import jp.ac.aiit.network.harahetta.parser.RequestParser;
 import jp.ac.aiit.network.harahetta.service.RecommendService;
-
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.json.impl.provider.entity.JsonProvider;
 
 /**
  * 腹減ったサーバ.
@@ -35,11 +27,68 @@ public class HarahettaServer {
 
     /** default port number. */
     private static final int DEFAULT_PORT = 1234;
+    private static Logger logger = Logger.getGlobal();
 
     private void run() throws Exception {
 
-        new RecommendService().getRecommend();
+        logger.info("server start ....");
 
+        // ソケット
+        ServerSocket serverSocket = null;
+        BufferedReader reader = null;
+
+        try {
+            // ソケットを生成
+            serverSocket = new ServerSocket(DEFAULT_PORT);
+
+            while (true) {
+
+                Socket socket = null;
+                try {
+                    // 入出力ストリームを用意し，クライアントからの要求を待つ
+                    socket = serverSocket.accept();
+
+                    // リクエスト処理
+                    RequestParser parser = new RequestParser().parse(socket.getInputStream());
+                    // レコメンド処理
+                    new RecommendService().getRecommend();
+
+                    PrintStream writer = new PrintStream(socket.getOutputStream());
+                    writer.println("HTTP/1.1 200 OK");
+                    writer.println("Content-Type:text/html");
+                    writer.println("");
+                    writer.println("<html><body><h1>hello</h1></body></html>");
+                    writer.println("");
+                    writer.println("");
+                    writer.flush();
+                    writer.close();
+
+                } catch (Exception e) {
+                	logger.log(Level.SEVERE, e.getMessage(), e);
+                } finally {
+                    if (socket != null) {
+                        socket.close();
+                    }
+                }
+            }
+        } catch (SocketException e) {
+        	logger.log(Level.SEVERE, e.getMessage(), e);
+        } catch (IOException e) {
+        	logger.log(Level.SEVERE, e.getMessage(), e);
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (Exception e) {
+                }
+            }
+            if (serverSocket != null) {
+                try {
+                    serverSocket.close();
+                } catch (Exception e) {
+                }
+            }
+        }
     }
 
     /**
