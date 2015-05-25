@@ -33,7 +33,16 @@ import com.sun.jersey.json.impl.provider.entity.JsonProvider;
 public class RecommendService {
 
     private static final ResourceBundle bundle = ResourceBundle.getBundle("release");
-    private static final String RECRUIT_API_KEY = bundle.getString("api_key");
+    private static String RECRUIT_API_KEY;
+    static {
+    	if (bundle.getString("api_key") != null) {
+        	RECRUIT_API_KEY = bundle.getString("api_key");
+    	} else if (System.getenv("api_key") != null) {
+        	RECRUIT_API_KEY = System.getenv("api_key");
+    	} else {
+    		throw new RuntimeException("not found api key !!");
+    	}
+    }
 
     private static Logger logger = Logger.getGlobal();
 
