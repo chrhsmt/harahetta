@@ -4,6 +4,24 @@
   <artifactId>harahetta</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>harahetta</name>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.4</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
   <dependencies>
   	<dependency>
   		<groupId>com.sun.jersey</groupId>
