@@ -5,6 +5,7 @@ package jp.ac.aiit.network.harahetta.service;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
@@ -52,7 +53,8 @@ public class RecommendService {
 
         // 暴君ロジックで色々と
 
-        return new Meal();
+        Random random = new Random();
+        return new Meal(areas.get(random.nextInt(areas.size() - 1)));
     }
     
     /**

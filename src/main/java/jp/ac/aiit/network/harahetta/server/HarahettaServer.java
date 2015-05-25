@@ -5,7 +5,6 @@ package jp.ac.aiit.network.harahetta.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -13,8 +12,11 @@ import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import jp.ac.aiit.network.harahetta.entity.Meal;
 import jp.ac.aiit.network.harahetta.parser.RequestParser;
 import jp.ac.aiit.network.harahetta.service.RecommendService;
+
+import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  * 腹減ったサーバ.
@@ -51,14 +53,13 @@ public class HarahettaServer {
                     // リクエスト処理
                     RequestParser parser = new RequestParser().parse(socket.getInputStream());
                     // レコメンド処理
-                    new RecommendService().getRecommend();
+                    Meal meal = new RecommendService().getRecommend();
 
                     PrintStream writer = new PrintStream(socket.getOutputStream());
                     writer.println("HTTP/1.1 200 OK");
-                    writer.println("Content-Type:text/html");
+                    writer.println("Content-Type: application/json");
                     writer.println("");
-                    writer.println("<html><body><h1>hello</h1></body></html>");
-                    writer.println("");
+                    writer.println(new ObjectMapper().writeValueAsString(meal));
                     writer.println("");
                     writer.flush();
                     writer.close();
