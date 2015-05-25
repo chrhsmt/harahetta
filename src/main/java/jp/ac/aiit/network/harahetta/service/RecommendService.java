@@ -5,6 +5,7 @@ package jp.ac.aiit.network.harahetta.service;
 
 import java.net.URI;
 import java.util.List;
+import java.util.MissingResourceException;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -32,10 +33,15 @@ import com.sun.jersey.json.impl.provider.entity.JsonProvider;
  */
 public class RecommendService {
 
-    private static final ResourceBundle bundle = ResourceBundle.getBundle("release");
     private static String RECRUIT_API_KEY;
     static {
-    	if (bundle.getString("api_key") != null) {
+    	ResourceBundle bundle = null;
+    	try {
+        	bundle = ResourceBundle.getBundle("release");
+    	} catch(MissingResourceException e) {
+    	}
+    	
+    	if (bundle != null && bundle.getString("api_key") != null) {
         	RECRUIT_API_KEY = bundle.getString("api_key");
     	} else if (System.getenv("api_key") != null) {
         	RECRUIT_API_KEY = System.getenv("api_key");
