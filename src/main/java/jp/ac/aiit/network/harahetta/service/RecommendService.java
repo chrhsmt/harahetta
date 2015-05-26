@@ -51,7 +51,7 @@ public class RecommendService {
     	}
     }
 
-    private static Logger logger = Logger.getGlobal();
+    private static Logger logger = Logger.getLogger("info");
 
     private static final String HOTPEPPER_API_SCHEME       = "http";
     private static final String HOTPEPPER_API_HOST         = "webservice.recruit.co.jp";

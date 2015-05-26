@@ -19,7 +19,7 @@ import jp.ac.aiit.network.harahetta.exception.ParseException;
  */
 public class RequestParser {
 
-	private static Logger logger = Logger.getGlobal();
+    private static Logger logger = Logger.getLogger("info");
 
 	private static final int REQUEST_PART_FLG_LINE   = 0;
 	private static final int REQUEST_PART_FLG_HEADER = 1;

@@ -30,7 +30,7 @@ public class HarahettaServer {
 
     /** default port number. */
     private static final int DEFAULT_PORT = 8810;
-    private static Logger logger = Logger.getGlobal();
+    private static Logger logger = Logger.getLogger("info");
 
     private void run() throws Exception {
 
