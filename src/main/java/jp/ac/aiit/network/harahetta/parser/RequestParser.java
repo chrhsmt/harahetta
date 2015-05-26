@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.logging.Logger;
 
+import jp.ac.aiit.network.harahetta.entity.Request;
 import jp.ac.aiit.network.harahetta.exception.ParseException;
 
 /**
@@ -24,22 +25,16 @@ public class RequestParser {
 	private static final int REQUEST_PART_FLG_HEADER = 1;
 	private static final int REQUEST_PART_FLG_BODY   = 2;
 	
-	private String method;
-	private String requestArgument;
-	private String protocolVersion;
-	private String UserAgent;
-	private String locationType;
-	private String location;
-
-	public RequestParser parse(InputStream input) throws IOException {
+	public Request parse(InputStream input) throws IOException {
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(input));
         String line = null;
+        Request request = new Request(); 
         int nowRequestPart = REQUEST_PART_FLG_LINE;
         while ((line = reader.readLine()) != null) {
         	logger.info(line);
         	if (nowRequestPart == 0) {
-        		this.parseRequestLine(line);
+        		this.parseRequestLine(line, request);
         		// next
         		nowRequestPart = REQUEST_PART_FLG_HEADER;
         		continue;
@@ -50,7 +45,7 @@ public class RequestParser {
         			nowRequestPart = REQUEST_PART_FLG_BODY;
             		continue;
         		} else {
-        			this.parseRequestHeader(line);
+        			this.parseRequestHeader(line, request);
         		}
         		
         	} else if (nowRequestPart == REQUEST_PART_FLG_BODY) {
@@ -62,30 +57,30 @@ public class RequestParser {
         	}
         	
         }
-        return this;
+        return request;
 	}
 
 	/**
 	 *  リクエストライン解析.
 	 * @param line
 	 */
-	private void parseRequestLine(String line) {
+	private void parseRequestLine(String line, Request request) {
 		String[] requestLine = line.split(" ");
 		if (requestLine.length != 3) {
 			throw new ParseException("invalid request line!");
 		}
-		this.method          = requestLine[0].trim();
-		this.requestArgument = requestLine[1].trim();
-		this.protocolVersion = requestLine[2].trim();
+		request.setMethod(requestLine[0].trim());
+		request.setRequestArgument(requestLine[1].trim());
+		request.setProtocolVersion(requestLine[2].trim());
 	}
 	
-	private void parseRequestHeader(String line) {
+	private void parseRequestHeader(String line, Request request) {
 		if (line.startsWith("User-Agent:")) {
-			this.UserAgent = line.substring(line.indexOf(":") + 1).trim();
+			request.setUserAgent(line.substring(line.indexOf(":") + 1).trim());
 		} else if (line.startsWith("location-type:")) {
-			this.locationType = line.substring(line.indexOf(":") + 1).trim();
+			request.setLocationType(line.substring(line.indexOf(":") + 1).trim());
 		} else if (line.startsWith("location")) {
-			this.location = line.substring(line.indexOf(":") + 1).trim();
+			request.setLocation(line.substring(line.indexOf(":") + 1).trim());
 		}
 	}
 }

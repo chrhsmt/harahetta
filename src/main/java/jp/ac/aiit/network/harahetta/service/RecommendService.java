@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response.Status.Family;
 import javax.ws.rs.core.UriBuilder;
 
 import jp.ac.aiit.network.harahetta.entity.Meal;
+import jp.ac.aiit.network.harahetta.entity.Request;
 import jp.ac.aiit.network.harahetta.entity.recruit.Entity;
 import jp.ac.aiit.network.harahetta.entity.recruit.Shop;
 import jp.ac.aiit.network.harahetta.entity.recruit.ShopResult;
@@ -62,31 +63,26 @@ public class RecommendService {
      * お勧め情報取得.
      * @return
      */
-    public Meal getRecommend() {
+    public Meal getRecommend(Request request) {
 
-        List<Shop> areas = this.getShops("青物横丁");
+        List<Shop> areas = this.getShops(request);
+
+        if (areas == null || areas.isEmpty()) {
+        	return null;
+        }
 
         // 暴君ロジックで色々と
 
         Random random = new Random();
-        return new Meal(areas.get(random.nextInt(areas.size() - 1)));
+        return new Meal(areas.get(random.nextInt(areas.size() == 1 ? areas.size() : (areas.size() - 1))));
     }
     
     /**
      *  店舗情報取得.
      */
-    private List<Shop> getShops(String name) {
+    private List<Shop> getShops(Request request) {
 
-        URI uri = UriBuilder.fromPath(HOTPEPPER_API_AREA_GOURMET)
-                .scheme(HOTPEPPER_API_SCHEME)
-                .host(HOTPEPPER_API_HOST)
-                .queryParam("key", RECRUIT_API_KEY)
-                .queryParam("keyword", name)
-                .queryParam("format", "json")
-                .queryParam("type", "lite")
-    //                .queryParam("format", "xml")
-                .build();
-        
+        URI uri = this.buildUri(request);
         logger.info(uri.toString());
         
         ClientConfig config = new DefaultClientConfig();
@@ -104,6 +100,9 @@ public class RecommendService {
             ShopResult result = entity.getResults();
             logger.info(String.format("api version : %s", result.getApiVersion()));
             logger.info(String.format("result count : %d", result.getResultsReturned()));
+            if (result.getResultsReturned() == 0) {
+            	return null;
+            }
             for (Shop shop: result.getShops()) {
                 logger.info(String.format("[%s] : %s[%s] @ %s",
                         shop.getId(), shop.getName(), shop.getFood().getName(), shop.getAddress()));
@@ -113,5 +112,29 @@ public class RecommendService {
             logger.info(response.getStatusInfo().toString());
             return null;
         }
+    }
+    
+    private URI buildUri(Request request) {
+    	UriBuilder uri = UriBuilder.fromPath(HOTPEPPER_API_AREA_GOURMET)
+    							   .scheme(HOTPEPPER_API_SCHEME)
+                                   .host(HOTPEPPER_API_HOST)
+                                   .queryParam("key", RECRUIT_API_KEY)
+					               .queryParam("format", "json")
+					               .queryParam("type", "lite");
+    //                .queryParam("format", "xml")
+    	if (request.containAddress() || request.containStation()) {
+    		if (request.containAddress()) {
+                uri.queryParam("address", request.getLocation());
+    		}
+    		if (request.containStation()) {
+                uri.queryParam("keyword", request.getLocation());
+    		}
+    	} else if (request.containPhone()) {
+    		uri.queryParam("tel", request.getLocation());
+    	} else if (request.containGeographic()) {
+    		uri.queryParam("lat", request.getLocation().split(",")[0].trim());
+    		uri.queryParam("lng", request.getLocation().split(",")[1].trim());
+    	}
+        return uri.build();
     }
 }

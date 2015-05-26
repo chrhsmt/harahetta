@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import jp.ac.aiit.network.harahetta.entity.Meal;
+import jp.ac.aiit.network.harahetta.entity.Request;
 import jp.ac.aiit.network.harahetta.parser.RequestParser;
 import jp.ac.aiit.network.harahetta.service.RecommendService;
 
@@ -51,16 +52,22 @@ public class HarahettaServer {
                     socket = serverSocket.accept();
 
                     // リクエスト処理
-                    RequestParser parser = new RequestParser().parse(socket.getInputStream());
+                    Request request = new RequestParser().parse(socket.getInputStream());
                     // レコメンド処理
-                    Meal meal = new RecommendService().getRecommend();
+                    Meal meal = new RecommendService().getRecommend(request);
 
                     PrintStream writer = new PrintStream(socket.getOutputStream());
-                    writer.println("HTTP/1.1 200 OK");
-                    writer.println("Content-Type: application/json");
-                    writer.println("");
-                    writer.println(new ObjectMapper().writeValueAsString(meal));
-                    writer.println("");
+                    if (meal == null) {
+                        writer.println("400 NOWHERE TO EAT");
+                        writer.println("");
+                        writer.println("");
+                    } else {
+                        writer.println("HARAHETTA/1.0 200 OK");
+                        writer.println("Content-Type: application/json");
+                        writer.println("");
+                        writer.println(new ObjectMapper().writeValueAsString(meal));
+                        writer.println("");
+                    }
                     writer.flush();
                     writer.close();
 

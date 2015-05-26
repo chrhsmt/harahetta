@@ -17,43 +17,32 @@ public class Meal implements Serializable {
     /** シリアルバージョン.  */
     private static final long serialVersionUID = -4176394766221583778L;
 
-    private String shopName;
+    private String name;
     
-    private String address;
+    private String location;
 
     public Meal() {
     }
 
     public Meal(Shop shop) {
-        this.setAddress(shop.getAddress());
-        this.setShopName(shop.getName());
+        this.setLocation(shop.getAddress());
+        this.setName(shop.getName());
     }
 
-    /**
-     * @return the shopName
-     */
-    public String getShopName() {
-        return shopName;
-    }
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * @param shopName the shopName to set
-     */
-    public void setShopName(String shopName) {
-        this.shopName = shopName;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    /**
-     * @return the address
-     */
-    public String getAddress() {
-        return address;
-    }
+	public String getLocation() {
+		return location;
+	}
 
-    /**
-     * @param address the address to set
-     */
-    public void setAddress(String address) {
-        this.address = address;
-    }
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
 }
