@@ -1,6 +1,8 @@
 #!/bin/bash
 
-( echo open localhost 8810;
+host=${1:-localhost}
+
+( echo open ${host} 8810;
   sleep 3;
   echo GET SUGGESTION HARAHETTA/1.0;
   sleep 1;
