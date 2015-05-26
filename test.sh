@@ -5,17 +5,17 @@ port=${2:-8810}
 ( echo open ${host} ${port};
   sleep 3;
   echo GET SUGGESTION HARAHETTA/1.0;
-  sleep 1;
+  sleep 0.1;
   echo User-Agent: harahetta-client-1.0;
-  sleep 1;
+  sleep 0.1;
   echo location-type: address,station;
-  sleep 1;
+  sleep 0.1;
   echo location: 五反田;
-  sleep 1;
+  sleep 0.1;
   echo ; # End of Header
-  sleep 1;
+  sleep 0.1;
   echo ;
-  sleep 3 ;
+  sleep 3;
 ) | telnet #localhost 8810
 
 
