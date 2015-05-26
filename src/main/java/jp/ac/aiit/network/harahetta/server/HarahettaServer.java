@@ -28,7 +28,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 public class HarahettaServer {
 
     /** default port number. */
-    private static final int DEFAULT_PORT = Integer.parseInt(System.getenv("PORT"));
+    private static final int DEFAULT_PORT = 8810;
     private static Logger logger = Logger.getGlobal();
 
     private void run() throws Exception {
