@@ -1,8 +1,8 @@
 #!/bin/bash
 
 host=${1:-localhost}
-
-( echo open ${host} 8810;
+port=${2:-8810}
+( echo open ${host} ${port};
   sleep 3;
   echo GET SUGGESTION HARAHETTA/1.0;
   sleep 1;
