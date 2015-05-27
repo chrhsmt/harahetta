@@ -19,6 +19,7 @@ import jp.ac.aiit.network.harahetta.entity.Request;
 import jp.ac.aiit.network.harahetta.entity.recruit.Entity;
 import jp.ac.aiit.network.harahetta.entity.recruit.Shop;
 import jp.ac.aiit.network.harahetta.entity.recruit.ShopResult;
+import jp.ac.aiit.network.harahetta.exception.NotImplementedException;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -134,6 +135,8 @@ public class RecommendService {
     	} else if (request.containGeographic()) {
     		uri.queryParam("lat", request.getLocation().split(",")[0].trim());
     		uri.queryParam("lng", request.getLocation().split(",")[1].trim());
+    	} else if (request.containZip()) {
+    		throw new NotImplementedException();
     	}
         return uri.build();
     }

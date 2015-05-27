@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 
 import jp.ac.aiit.network.harahetta.entity.Meal;
 import jp.ac.aiit.network.harahetta.entity.Request;
+import jp.ac.aiit.network.harahetta.exception.NotImplementedException;
 import jp.ac.aiit.network.harahetta.parser.RequestParser;
 import jp.ac.aiit.network.harahetta.service.RecommendService;
 
@@ -53,23 +54,35 @@ public class HarahettaServer {
 
                     // リクエスト処理
                     Request request = new RequestParser().parse(socket.getInputStream());
-                    // レコメンド処理
-                    Meal meal = new RecommendService().getRecommend(request);
-
                     PrintStream writer = new PrintStream(socket.getOutputStream());
-                    if (meal == null) {
-                        writer.println("400 NOWHERE TO EAT");
+
+                    try {
+                        // レコメンド処理
+                    	Meal meal = new RecommendService().getRecommend(request);
+
+                        if (meal == null) {
+                            writer.println("HARAHETTA/1.0 400 NOWHERE TO EAT");
+                            writer.println("");
+                            writer.println("");
+                        } else {
+                            writer.println("HARAHETTA/1.0 200 OK");
+                            writer.println("Content-Type: application/json");
+                            writer.println("");
+                            writer.println(new ObjectMapper().writeValueAsString(meal));
+                            writer.println("");
+                        }
+                    } catch (NotImplementedException e) {
+                        writer.println("HARAHETTA/1.0 500 NOT IMPLEMENTED");
                         writer.println("");
                         writer.println("");
-                    } else {
-                        writer.println("HARAHETTA/1.0 200 OK");
-                        writer.println("Content-Type: application/json");
+                    } catch (Exception e) {
+                        writer.println("HARAHETTA/1.0 500 SYSTEM ERROR");
                         writer.println("");
-                        writer.println(new ObjectMapper().writeValueAsString(meal));
                         writer.println("");
-                    }
-                    writer.flush();
-                    writer.close();
+					} finally {
+	                    writer.flush();
+	                    writer.close();
+					}
 
                 } catch (Exception e) {
                 	logger.log(Level.SEVERE, e.getMessage(), e);
