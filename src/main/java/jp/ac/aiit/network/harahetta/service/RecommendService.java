@@ -120,6 +120,7 @@ public class RecommendService {
     							   .scheme(HOTPEPPER_API_SCHEME)
                                    .host(HOTPEPPER_API_HOST)
                                    .queryParam("key", RECRUIT_API_KEY)
+                                   .queryParam("is_open_time", "now")
 //                                   .queryParam("type", "lite")
 					               .queryParam("format", "json");
     //                .queryParam("format", "xml")
