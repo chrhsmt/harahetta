@@ -2,9 +2,10 @@
 
 host=${1:-localhost}
 port=${2:-8810}
+keyword=${3:-SUGGESTION}
 ( echo open ${host} ${port};
   sleep 3;
-  echo GET SUGGESTION HARAHETTA/1.0;
+  echo GET ${keyword} HARAHETTA/1.0;
   sleep 0.1;
   echo User-Agent: harahetta-client-1.0;
   sleep 0.1;

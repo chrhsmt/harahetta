@@ -123,12 +123,14 @@ public class RecommendService {
 					               .queryParam("format", "json")
 					               .queryParam("type", "lite");
     //                .queryParam("format", "xml")
+    	StringBuilder keywordBuilder = new StringBuilder();
+    	
     	if (request.containAddress() || request.containStation()) {
     		if (request.containAddress()) {
                 uri.queryParam("address", request.getLocation());
     		}
     		if (request.containStation()) {
-                uri.queryParam("keyword", request.getLocation());
+    		    keywordBuilder.append(request.getLocation());
     		}
     	} else if (request.containPhone()) {
     		uri.queryParam("tel", request.getLocation());
@@ -138,6 +140,16 @@ public class RecommendService {
     	} else if (request.containZip()) {
     		throw new NotImplementedException();
     	}
+    	
+    	if (!"SUGGESTION".equals(request.getRequestArgument())
+    	        && request.getRequestArgument() != null
+    	        && !request.getRequestArgument().equals("")) {
+    	    if (keywordBuilder.length() > 0) {
+    	        keywordBuilder.append(" ");
+    	    }
+    	    keywordBuilder.append(request.getRequestArgument());
+    	}
+        uri.queryParam("keyword", keywordBuilder.toString());
         return uri.build();
     }
 }
