@@ -5,6 +5,8 @@ package jp.ac.aiit.network.harahetta.entity.recruit;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlElement;
+
 /**
  * @author hashimoto
  *
@@ -21,6 +23,12 @@ public class Shop implements Serializable {
     private String address;
 
     private Item food;
+    
+    private String open;
+    
+    private Urls urls;
+
+    private String catchCopy;
 
     /**
      * @return the id
@@ -78,4 +86,46 @@ public class Shop implements Serializable {
         this.food = food;
     }
 
+    /**
+     * @return the open
+     */
+    public String getOpen() {
+        return open;
+    }
+
+    /**
+     * @param open the open to set
+     */
+    public void setOpen(String open) {
+        this.open = open;
+    }
+
+    /**
+     * @return the catchCopy
+     */
+    public String getCatchCopy() {
+        return catchCopy;
+    }
+
+    /**
+     * @param catchCopy the catchCopy to set
+     */
+    @XmlElement(name="catch")
+    public void setCatchCopy(String catchCopy) {
+        this.catchCopy = catchCopy;
+    }
+
+    /**
+     * @return the urls
+     */
+    public Urls getUrls() {
+        return urls;
+    }
+
+    /**
+     * @param urls the urls to set
+     */
+    public void setUrls(Urls urls) {
+        this.urls = urls;
+    }
 }
