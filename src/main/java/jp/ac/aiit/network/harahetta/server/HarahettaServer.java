@@ -6,6 +6,7 @@ package jp.ac.aiit.network.harahetta.server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -92,6 +93,9 @@ public class HarahettaServer {
                     }
                 }
             }
+        } catch (BindException e) {
+        	logger.log(Level.SEVERE, "server is still running on same port.");
+        	throw e;
         } catch (SocketException e) {
         	logger.log(Level.SEVERE, e.getMessage(), e);
         } catch (IOException e) {
