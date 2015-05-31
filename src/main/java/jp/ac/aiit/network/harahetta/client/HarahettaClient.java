@@ -57,7 +57,6 @@ public class HarahettaClient {
 		/**
     	* リクエストヘッダ
     	*/
-    	String command1 = "SUGGESTION"; //通常はSUGGESTION、変わる可能性あり
 
     	//住所、駅名
     	String address = "address";
@@ -72,6 +71,7 @@ public class HarahettaClient {
     	System.out.println(String.format("こんにちは %s さん", userName));
     	System.out.println("[第一引数:host, 第二引数:port で接続先を変更できます]");
     	while (true){
+        	String command1 = "SUGGESTION"; //通常はSUGGESTION、変わる可能性あり
     	    try{
     	        //コンソールからパラメータを取得
     	        commandLine = new BufferedReader(new InputStreamReader(System.in));
