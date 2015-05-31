@@ -70,6 +70,7 @@ public class HarahettaClient {
 
     	String userName = System.getenv("USER") != null ? System.getenv("USER") : "Guest";
     	System.out.println(String.format("こんにちは %s さん", userName));
+    	System.out.println("[第一引数:host, 第二引数:port で接続先を変更できます]");
     	while (true){
     	    try{
     	        //コンソールからパラメータを取得
@@ -82,7 +83,7 @@ public class HarahettaClient {
 		    	        System.out.println("サービスを終了します。");
 		    	        break;
 	    	        }
-	    	        System.out.println("他に条件があれば入力してください(お店ジャンルなど。無ければreturn)。");
+	    	        System.out.println("他に条件があれば入力してください(お店ジャンル[例えば「アジア」]など。無ければreturn)。");
 	    	        String other = commandLine.readLine();
 	    	        if (other != null && !other.equals("")) {
 	    	        	command1 = other;
